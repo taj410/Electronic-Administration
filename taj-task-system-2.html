@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة مهام تاج العزيزية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A2233;
+    --ink-soft:#4B5566;
+    --paper:#F3F4F1;
+    --panel:#FFFFFF;
+    --line:#DCDFE3;
+    --line-strong:#B9BFC7;
+    --primary:#1E3A5F;
+    --primary-dark:#132A44;
+    --primary-tint:#E7ECF2;
+    --accent:#B9903A;
+    --accent-tint:#F5EBD6;
+    --success:#2F7A4F;
+    --success-tint:#E4F1E9;
+    --warning:#A9701C;
+    --warning-tint:#F6EBD9;
+    --danger:#B33636;
+    --danger-tint:#F6E4E4;
+    --shadow:0 1px 2px rgba(20,30,50,.06);
+    --font:'Tajawal', system-ui, sans-serif;
+  }
+  :root:not([data-theme="light"]){
+    @media (prefers-color-scheme: dark){
+      --ink:#EAEDF2;
+      --ink-soft:#AEB6C2;
+      --paper:#12161E;
+      --panel:#1A2029;
+      --line:#2A313D;
+      --line-strong:#3A4250;
+      --primary:#5C86B4;
+      --primary-dark:#7CA3CC;
+      --primary-tint:#1D2A3B;
+      --accent:#D6B36A;
+      --accent-tint:#2C2416;
+      --success:#5FAE7E;
+      --success-tint:#17261D;
+      --warning:#D6A253;
+      --warning-tint:#2B2313;
+      --danger:#E08080;
+      --danger-tint:#2B1919;
+      --shadow:0 1px 2px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+      --ink:#EAEDF2;
+      --ink-soft:#AEB6C2;
+      --paper:#12161E;
+      --panel:#1A2029;
+      --line:#2A313D;
+      --line-strong:#3A4250;
+      --primary:#5C86B4;
+      --primary-dark:#7CA3CC;
+      --primary-tint:#1D2A3B;
+      --accent:#D6B36A;
+      --accent-tint:#2C2416;
+      --success:#5FAE7E;
+      --success-tint:#17261D;
+      --warning:#D6A253;
+      --warning-tint:#2B2313;
+      --danger:#E08080;
+      --danger-tint:#2B1919;
+      --shadow:0 1px 2px rgba(0,0,0,.4);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:var(--font);
+    background:var(--paper);
+    color:var(--ink);
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  button, input, select, textarea{font-family:inherit; color:inherit}
+  .shell{display:flex; min-height:100vh}
+
+  /* ---------- Sidebar ---------- */
+  .sidebar{
+    width:252px; flex:0 0 252px;
+    background:var(--primary-dark);
+    color:#EFF3F8;
+    display:flex; flex-direction:column;
+    padding:22px 16px;
+    gap:22px;
+  }
+  .brand{display:flex; align-items:center; gap:12px; padding:0 4px}
+  .seal{
+    width:44px; height:44px; border-radius:50%;
+    border:2px solid var(--accent);
+    display:flex; align-items:center; justify-content:center;
+    flex:0 0 44px;
+    position:relative;
+  }
+  .seal::before{
+    content:'';
+    position:absolute; inset:4px;
+    border:1px solid rgba(185,144,58,.55);
+    border-radius:50%;
+  }
+  .seal span{font-size:15px; font-weight:900; color:var(--accent)}
+  .brand-text .t1{font-size:14px; font-weight:700; line-height:1.35}
+  .brand-text .t2{font-size:11px; color:#AEBBCB; margin-top:2px}
+
+  .nav{display:flex; flex-direction:column; gap:4px}
+  .nav button{
+    display:flex; align-items:center; gap:10px;
+    background:transparent; border:none;
+    color:#C9D4E2; text-align:right;
+    padding:10px 12px; border-radius:8px;
+    font-size:14px; font-weight:500; cursor:pointer;
+    transition:background .15s ease, color .15s ease;
+  }
+  .nav button:hover{background:rgba(255,255,255,.06); color:#fff}
+  .nav button.active{background:var(--accent); color:#241C0C; font-weight:700}
+  .nav button svg{width:17px; height:17px; flex:0 0 17px}
+  .nav .grp-label{font-size:10.5px; color:#8493A6; letter-spacing:.02em; margin:10px 4px 0}
+
+  .sidebar-foot{margin-top:auto; padding-top:14px; border-top:1px solid rgba(255,255,255,.1)}
+  .sidebar-foot .name{font-size:12.5px; font-weight:700; color:#E4E9F0}
+  .sidebar-foot .role{font-size:11px; color:#93A2B6; margin-top:1px}
+
+  /* ---------- Main ---------- */
+  .main{flex:1; min-width:0; padding:26px 30px 60px; max-width:1180px}
+  .page-head{margin-bottom:20px}
+  .page-head h1{font-size:21px; font-weight:900; margin:0 0 4px}
+  .page-head p{font-size:13px; color:var(--ink-soft); margin:0; max-width:640px; line-height:1.7}
+
+  .panel{
+    background:var(--panel); border:1px solid var(--line);
+    border-radius:10px; box-shadow:var(--shadow);
+  }
+  .panel + .panel{margin-top:16px}
+  .panel-head{
+    padding:14px 18px; border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+  }
+  .panel-head h2{font-size:14.5px; font-weight:700; margin:0}
+  .panel-body{padding:18px}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+  .field{display:flex; flex-direction:column; gap:6px; margin-bottom:14px}
+  .field label{font-size:12.5px; font-weight:700; color:var(--ink-soft)}
+  .field .hint{font-size:11px; color:var(--ink-soft); font-weight:400}
+  input[type=text], input[type=email], input[type=tel], select, textarea{
+    border:1px solid var(--line-strong); background:var(--paper);
+    color:var(--ink); border-radius:7px; padding:9px 11px;
+    font-size:13.5px; width:100%; outline:none;
+  }
+  input:focus, select:focus, textarea:focus{border-color:var(--primary); box-shadow:0 0 0 3px var(--primary-tint)}
+  textarea{resize:vertical; min-height:90px; line-height:1.7}
+
+  .btn{
+    display:inline-flex; align-items:center; gap:7px; justify-content:center;
+    border-radius:7px; border:1px solid transparent; cursor:pointer;
+    font-size:13px; font-weight:700; padding:9px 16px; white-space:nowrap;
+    text-decoration:none;
+  }
+  .btn svg{width:15px; height:15px}
+  .btn-primary{background:var(--primary); color:#fff}
+  .btn-primary:hover{background:var(--primary-dark)}
+  .btn-accent{background:var(--accent); color:#241C0C}
+  .btn-accent:hover{filter:brightness(1.05)}
+  .btn-ghost{background:transparent; border-color:var(--line-strong); color:var(--ink)}
+  .btn-ghost:hover{background:var(--primary-tint)}
+  .btn-danger-ghost{background:transparent; border-color:var(--line-strong); color:var(--danger)}
+  .btn-danger-ghost:hover{background:var(--danger-tint)}
+  .btn-sm{padding:6px 11px; font-size:12px}
+  .btn:disabled{opacity:.45; cursor:not-allowed}
+
+  table{width:100%; border-collapse:collapse; font-size:13px}
+  th{
+    text-align:right; font-size:11.5px; color:var(--ink-soft); font-weight:700;
+    padding:9px 12px; border-bottom:1px solid var(--line); white-space:nowrap;
+  }
+  td{padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  .table-wrap{overflow-x:auto}
+  .muted{color:var(--ink-soft)}
+  .empty{padding:32px 18px; text-align:center; color:var(--ink-soft); font-size:13px}
+
+  .pill{
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:11.5px; font-weight:700; padding:4px 10px; border-radius:999px;
+  }
+  .pill-wait{background:var(--warning-tint); color:var(--warning)}
+  .pill-done{background:var(--success-tint); color:var(--success)}
+  .pill-cancel{background:var(--danger-tint); color:var(--danger)}
+  .pill-dot{width:6px; height:6px; border-radius:50%; background:currentColor}
+
+  .chip-row{display:flex; flex-wrap:wrap; gap:8px}
+  .chip{
+    border:1px solid var(--line-strong); background:var(--panel);
+    border-radius:8px; padding:8px 12px; font-size:12.5px; font-weight:600;
+    cursor:pointer; text-align:right;
+  }
+  .chip:hover{border-color:var(--primary)}
+  .chip.selected{border-color:var(--primary); background:var(--primary-tint); color:var(--primary-dark)}
+
+  .search{position:relative}
+  .search svg{position:absolute; right:11px; top:50%; transform:translateY(-50%); width:15px; height:15px; color:var(--ink-soft)}
+  .search input{padding-right:34px}
+
+  .compose-grid{display:grid; grid-template-columns:340px 1fr; gap:16px; align-items:start}
+  .emp-list{max-height:420px; overflow-y:auto; display:flex; flex-direction:column; gap:6px}
+  .emp-item{
+    border:1px solid var(--line); border-radius:8px; padding:10px 12px; cursor:pointer;
+    display:flex; flex-direction:column; gap:2px;
+  }
+  .emp-item:hover{border-color:var(--primary)}
+  .emp-item.selected{border-color:var(--primary); background:var(--primary-tint)}
+  .emp-item .nm{font-size:13.5px; font-weight:700}
+  .emp-item .jb{font-size:11.5px; color:var(--ink-soft)}
+
+  .letter{
+    background:var(--paper); border:1px dashed var(--line-strong); border-radius:8px;
+    padding:20px 22px; font-size:13.5px; line-height:2.05; white-space:pre-wrap;
+  }
+  .letter .lhead{display:flex; justify-content:space-between; font-size:11.5px; color:var(--ink-soft); margin-bottom:14px; border-bottom:1px solid var(--line); padding-bottom:10px}
+  .letter .lsubj{font-weight:800; margin-bottom:10px}
+
+  .div-toggle{display:flex; gap:8px; margin-bottom:16px}
+  .div-toggle button{
+    flex:1; border:1px solid var(--line-strong); background:var(--panel); border-radius:8px;
+    padding:10px 12px; text-align:right; cursor:pointer;
+  }
+  .div-toggle button .dn{font-size:13px; font-weight:700; display:block}
+  .div-toggle button .de{font-size:11px; color:var(--ink-soft); display:block; margin-top:2px}
+  .div-toggle button.active{border-color:var(--accent); background:var(--accent-tint)}
+
+  .toast{
+    position:fixed; bottom:22px; left:50%; transform:translateX(-50%);
+    background:var(--ink); color:var(--paper); padding:10px 20px; border-radius:8px;
+    font-size:13px; font-weight:600; box-shadow:0 4px 14px rgba(0,0,0,.25);
+    opacity:0; pointer-events:none; transition:opacity .2s ease, transform .2s ease;
+    z-index:50; white-space:nowrap;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(-4px)}
+
+  .modal-bg{
+    position:fixed; inset:0; background:rgba(15,20,30,.45);
+    display:none; align-items:flex-start; justify-content:center;
+    padding:6vh 16px; overflow-y:auto; z-index:40;
+  }
+  .modal-bg.show{display:flex}
+  .modal{background:var(--panel); border-radius:12px; width:100%; max-width:480px; box-shadow:0 10px 40px rgba(0,0,0,.2)}
+  .modal-head{padding:16px 20px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center}
+  .modal-head h3{margin:0; font-size:15px; font-weight:800}
+  .modal-head button{background:none; border:none; cursor:pointer; color:var(--ink-soft); font-size:18px; line-height:1}
+  .modal-body{padding:18px 20px}
+  .modal-foot{padding:14px 20px; border-top:1px solid var(--line); display:flex; justify-content:flex-start; gap:8px}
+
+  .row-actions{display:flex; gap:6px; flex-wrap:wrap}
+
+  @media (max-width: 900px){
+    .compose-grid{grid-template-columns:1fr}
+    .grid2{grid-template-columns:1fr}
+  }
+  @media (max-width: 720px){
+    .shell{flex-direction:column}
+    .sidebar{width:100%; flex:none; flex-direction:row; align-items:center; overflow-x:auto; padding:14px}
+    .nav{flex-direction:row; overflow-x:auto}
+    .nav .grp-label{display:none}
+    .sidebar-foot{display:none}
+    .brand-text{display:none}
+    .main{padding:18px 16px 50px}
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="seal"><span>ع</span></div>
+      <div class="brand-text">
+        <div class="t1">تاج العزيزية</div>
+        <div class="t2">منصة إسناد المهام</div>
+      </div>
+    </div>
+    <nav class="nav" id="nav">
+      <div class="grp-label">العمل اليومي</div>
+      <button data-tab="compose" class="active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19l4-1 10-10-3-3L5 15l-1 4z"/></svg>
+        إرسال مهمة
+      </button>
+      <button data-tab="log">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/></svg>
+        سجل المهام
+      </button>
+      <div class="grp-label">الإعداد</div>
+      <button data-tab="employees">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M15 8a3 3 0 100-6 3 3 0 000 6zM17 14c2.5.3 4 2.2 4 6"/></svg>
+        الموظفون
+      </button>
+      <button data-tab="templates">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h9l3 3v15H6z"/><path d="M9 11h6M9 15h6"/></svg>
+        المهام الجاهزة
+      </button>
+      <button data-tab="settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 00-.2-1.6l2-1.5-2-3.4-2.3.9a7 7 0 00-2.7-1.6L13.4 2h-2.8l-.4 2.8a7 7 0 00-2.7 1.6l-2.3-.9-2 3.4 2 1.5a7 7 0 000 3.2l-2 1.5 2 3.4 2.3-.9a7 7 0 002.7 1.6l.4 2.8h2.8l.4-2.8a7 7 0 002.7-1.6l2.3.9 2-3.4-2-1.5c.13-.5.2-1 .2-1.6z"/></svg>
+        الإعدادات
+      </button>
+    </nav>
+    <div class="sidebar-foot">
+      <div class="name">محمد مشعل العنزي</div>
+      <div class="role">المدير العام لقطاع اللوجستيات</div>
+    </div>
+  </aside>
+
+  <main class="main" id="main"></main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <div class="modal-head"><h3 id="modalTitle"></h3><button onclick="closeModal()">✕</button></div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-foot" id="modalFoot"></div>
+  </div>
+</div>
+
+<script>
+/* ===================== State ===================== */
+const STORAGE_KEY = 'taj_task_system_v1';
+
+const defaultState = {
+  divisions: [
+    { id:'logistics', name:'تاج العزيزية للخدمات اللوجستية', email:'logistics@tajazizia.com' },
+    { id:'contracting', name:'تاج العزيزية للمقاولات', email:'' }
+  ],
+  signer: { name:'محمد مشعل العنزي', title:'المدير العام لقطاع اللوجستيات' },
+  employees: [
+    { id:'emp_maha', name:'مهاء مناور مبارك العنزي', jobTitle:'مندوب مشتريات', email:'MahaMenwer@outlook.com', phone:'' },
+    { id:'emp_mishal', name:'مشعل محمد مشعل العنزي', jobTitle:'مدير شؤون قانونية', email:'m92146161@gmail.com', phone:'' },
+    { id:'emp_saud', name:'سعود نايف سعد العنزي', jobTitle:'كاتب علاقات حكومية', email:'saudnayef63@gmail.com', phone:'' },
+    { id:'emp_munira', name:'منيره طايف زنعاف العنزي', jobTitle:'مندوب مبيعات', email:'muniraht19@gmail.com', phone:'' },
+    { id:'emp_amer', name:'عامر محمد مشعل العنزي', jobTitle:'محصل', email:'Amer1102026@outlook.com', phone:'' },
+    { id:'emp_tayef', name:'طايف عطالله ابن مشعل العنزي', jobTitle:'مشرف مسكن', email:'tayef1530@gmail.com', phone:'' },
+    { id:'emp_leen', name:'لين راضي مسيب العنزي', jobTitle:'مشرف مدخلي البيانات', email:'radhileen1@outlook.com', phone:'' },
+    { id:'emp_awatif', name:'عواطف ضاحي خلاف العنزي', jobTitle:'مندوب مبيعات', email:'dhahiawatif@gmail.com', phone:'' },
+    { id:'emp_fi', name:'في عطالله ابن مشعل العنزي', jobTitle:'مهندس برمجيات', email:'fooof1998@outlook.com', phone:'' },
+    { id:'emp_nawa', name:'نواء عواد ظاهر العنزي', jobTitle:'مشرف مكتب', email:'nawa19981@outlook.com', phone:'' },
+    { id:'emp_reem', name:'ريم سلامه مشعل العنزي', jobTitle:'مندوب مبيعات', email:'reem200205@outlook.com', phone:'' }
+  ],
+  templates: [
+    { id:'tmpl_purch_1', jobTitle:'مندوب مشتريات', title:'تحديث أسعار الموردين الشهري', body:'يرجى إعداد تحديث بأسعار الموردين الحاليين لهذا الشهر ومقارنتها بالشهر السابق، وإرسال العروض المنافسة إن وجدت خلال يومي عمل.' },
+    { id:'tmpl_purch_2', jobTitle:'مندوب مشتريات', title:'طلب عروض أسعار قطع غيار الأسطول', body:'يرجى التواصل مع ثلاثة موردين على الأقل للحصول على عروض أسعار قطع غيار المركبات المطلوبة، وتلخيصها في جدول مقارنة.' },
+
+    { id:'tmpl_legal_1', jobTitle:'مدير شؤون قانونية', title:'مراجعة عقد جديد', body:'يرجى مراجعة العقد المرفق من الناحية القانونية، وتزويدنا بالملاحظات والتعديلات المقترحة قبل التوقيع.' },
+    { id:'tmpl_legal_2', jobTitle:'مدير شؤون قانونية', title:'تحديث نموذج عقد التوظيف', body:'يرجى مراجعة نموذج عقد التوظيف الحالي وتحديثه بما يتوافق مع آخر التعديلات النظامية.' },
+
+    { id:'tmpl_gov_1', jobTitle:'كاتب علاقات حكومية', title:'متابعة تجديد تراخيص المركبات', body:'يرجى متابعة تجديد تراخيص وتأمين المركبات المستحقة هذا الشهر، وإرسال قائمة بالمركبات المتبقية وتواريخ استحقاقها.' },
+    { id:'tmpl_gov_2', jobTitle:'كاتب علاقات حكومية', title:'متابعة معاملة حكومية', body:'يرجى متابعة حالة المعاملة المشار إليها في المنصة الحكومية، وإفادتنا بآخر تحديث خلال يومين.' },
+
+    { id:'tmpl_sales_1', jobTitle:'مندوب مبيعات', title:'تقرير المبيعات الأسبوعي', body:'يرجى تزويدنا بتقرير المبيعات لهذا الأسبوع موضحًا فيه عدد العملاء الجدد وقيمة الطلبات المنجزة.' },
+    { id:'tmpl_sales_2', jobTitle:'مندوب مبيعات', title:'متابعة عملاء متوقفين', body:'يرجى التواصل مع العملاء الذين توقفوا عن الطلب خلال آخر 30 يومًا، ومعرفة سبب التوقف ومحاولة إعادتهم.' },
+
+    { id:'tmpl_collect_1', jobTitle:'محصل', title:'تحصيل المستحقات المتأخرة', body:'يرجى متابعة تحصيل المستحقات من العملاء المتأخرين وإرسال كشف بالمبالغ المحصّلة يوميًا.' },
+    { id:'tmpl_collect_2', jobTitle:'محصل', title:'تسليم إيصالات التحصيل', body:'يرجى تسليم نسخ الإيصالات الخاصة بالتحصيلات هذا الأسبوع لقسم المحاسبة والتأكد من مطابقتها.' },
+
+    { id:'tmpl_housing_1', jobTitle:'مشرف مسكن', title:'جولة تفقدية على سكن الموظفين', body:'يرجى إجراء جولة تفقدية على سكن الموظفين والتأكد من سلامة المرافق، وإرسال تقرير بأي ملاحظات تحتاج صيانة.' },
+    { id:'tmpl_housing_2', jobTitle:'مشرف مسكن', title:'تقرير شهري عن حالة السكن', body:'يرجى إعداد تقرير شهري يوضح حالة السكن، نسبة الإشغال، وأي احتياجات صيانة أو تجديد.' },
+
+    { id:'tmpl_data_1', jobTitle:'مشرف مدخلي البيانات', title:'مراجعة دقة إدخال بيانات الطلبات', body:'يرجى مراجعة عينة من بيانات الطلبات المُدخلة هذا الأسبوع والتأكد من دقتها، وتزويدنا بنسبة الأخطاء إن وجدت.' },
+    { id:'tmpl_data_2', jobTitle:'مشرف مدخلي البيانات', title:'تقرير الأخطاء المتكررة', body:'يرجى إعداد تقرير بأكثر الأخطاء تكرارًا في إدخال البيانات، مع مقترحات لتقليلها.' },
+
+    { id:'tmpl_dev_1', jobTitle:'مهندس برمجيات', title:'إصلاح خلل في لوحة التتبع', body:'يرجى فحص الخلل المُبلّغ عنه في لوحة تتبع الطلبات وإصلاحه، وإفادتنا فور الانتهاء.' },
+    { id:'tmpl_dev_2', jobTitle:'مهندس برمجيات', title:'تقرير أداء الأنظمة', body:'يرجى إعداد تقرير فني عن أداء الأنظمة الحالية خلال الشهر، مع أي توصيات للتحسين.' },
+
+    { id:'tmpl_office_1', jobTitle:'مشرف مكتب', title:'متابعة الحضور والانصراف', body:'يرجى مراجعة سجل حضور وانصراف الموظفين لهذا الأسبوع وإفادتنا بأي حالات تأخر أو غياب متكرر.' },
+    { id:'tmpl_office_2', jobTitle:'مشرف مكتب', title:'تنسيق اجتماع الفريق الأسبوعي', body:'يرجى تنسيق موعد اجتماع الفريق الأسبوعي القادم، وإعداد جدول الأعمال وتوزيعه على الحضور مسبقًا.' }
+  ],
+  log: [],
+  activeDivision: 'logistics'
+};
+
+let state = loadState();
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    const base = structuredClone(defaultState);
+    if(!raw) return base;
+    const parsed = JSON.parse(raw);
+    return { ...base, ...parsed,
+      divisions: (parsed.divisions && parsed.divisions.length) ? parsed.divisions : base.divisions,
+      signer: parsed.signer || base.signer,
+      employees: (parsed.employees && parsed.employees.length) ? parsed.employees : base.employees,
+      templates: (parsed.templates && parsed.templates.length) ? parsed.templates : base.templates,
+      log: parsed.log || base.log };
+  }catch(e){
+    console.error('load error', e);
+    return structuredClone(defaultState);
+  }
+}
+function saveState(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  catch(e){ console.error('save error', e); toast('تعذر الحفظ محليًا'); }
+}
+function uid(){ return 'id_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,8); }
+
+/* ===================== Utilities ===================== */
+function esc(s){
+  return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(()=> t.classList.remove('show'), 2200);
+}
+function fmtDate(iso){
+  if(!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('ar-SA', { year:'numeric', month:'short', day:'numeric' }) +
+    ' · ' + d.toLocaleTimeString('ar-SA', { hour:'2-digit', minute:'2-digit' });
+}
+function jobTitles(){
+  const set = new Set(state.employees.map(e=>e.jobTitle).filter(Boolean));
+  return [...set];
+}
+function copyText(text){
+  const done = ()=> toast('تم نسخ نص البريد ✓');
+  const fail = ()=>{
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); done(); }
+    catch(e){ toast('تعذر النسخ — انسخ يدويًا'); }
+    document.body.removeChild(ta);
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(fail);
+  } else fail();
+}
+
+/* ===================== Modal ===================== */
+function openModal(title, bodyHtml, footHtml){
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').innerHTML = bodyHtml;
+  document.getElementById('modalFoot').innerHTML = footHtml;
+  document.getElementById('modalBg').classList.add('show');
+}
+function closeModal(){ document.getElementById('modalBg').classList.remove('show'); }
+
+/* ===================== Nav ===================== */
+let currentTab = 'compose';
+let composeSelectedEmployee = null;
+let composeSelectedTemplate = null;
+
+document.getElementById('nav').addEventListener('click', e=>{
+  const btn = e.target.closest('button[data-tab]');
+  if(!btn) return;
+  currentTab = btn.dataset.tab;
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active', b===btn));
+  render();
+});
+
+function render(){
+  const main = document.getElementById('main');
+  if(currentTab==='compose') main.innerHTML = renderCompose();
+  else if(currentTab==='employees') main.innerHTML = renderEmployees();
+  else if(currentTab==='templates') main.innerHTML = renderTemplates();
+  else if(currentTab==='log') main.innerHTML = renderLog();
+  else if(currentTab==='settings') main.innerHTML = renderSettings();
+  wireTabEvents();
+}
+
+/* ===================== Compose Tab ===================== */
+function renderCompose(){
+  const emp = state.employees.find(e=>e.id===composeSelectedEmployee);
+  const tmplForEmp = emp ? state.templates.filter(t=>t.jobTitle===emp.jobTitle) : [];
+  const div = state.divisions.find(d=>d.id===state.activeDivision) || state.divisions[0];
+
+  const empListHtml = state.employees.length ? state.employees.map(e=>`
+    <div class="emp-item ${e.id===composeSelectedEmployee?'selected':''}" data-emp="${e.id}">
+      <span class="nm">${esc(e.name)}</span>
+      <span class="jb">${esc(e.jobTitle||'—')}</span>
+    </div>`).join('') : `<div class="empty">لا يوجد موظفون بعد.<br>أضفهم من تبويب «الموظفون».</div>`;
+
+  let composerHtml = '';
+  if(!emp){
+    composerHtml = `<div class="empty">اختر موظفًا من القائمة لبدء إعداد المهمة</div>`;
+  } else {
+    const chips = tmplForEmp.length ? tmplForEmp.map(t=>`
+      <div class="chip ${t.id===composeSelectedTemplate?'selected':''}" data-tmpl="${t.id}">${esc(t.title)}</div>
+    `).join('') : `<span class="muted" style="font-size:12.5px">لا توجد مهام جاهزة لمسمى «${esc(emp.jobTitle||'')}» — أضفها من تبويب «المهام الجاهزة»، أو اكتب مهمة مخصّصة أدناه.</span>`;
+
+    const activeTmpl = state.templates.find(t=>t.id===composeSelectedTemplate);
+    const subjectVal = document.getElementById('taskSubject')?.value ?? (activeTmpl ? activeTmpl.title : '');
+    const bodyVal = document.getElementById('taskBody')?.value ?? (activeTmpl ? fillTemplate(activeTmpl.body, emp) : '');
+
+    composerHtml = `
+      <div class="field"><label>مهام جاهزة لمسمى «${esc(emp.jobTitle||'غير محدد')}»</label>
+        <div class="chip-row">${chips}</div>
+      </div>
+      <div class="field"><label>عنوان المهمة</label>
+        <input type="text" id="taskSubject" placeholder="مثال: تقرير أداء التوصيل الأسبوعي" value="${esc(subjectVal)}">
+      </div>
+      <div class="field"><label>تفاصيل المهمة</label>
+        <textarea id="taskBody" rows="6" placeholder="اكتب تفاصيل المهمة المطلوبة من الموظف...">${esc(bodyVal)}</textarea>
+      </div>
+      <div class="row-actions">
+        <button class="btn btn-ghost btn-sm" id="refreshPreview">تحديث المعاينة</button>
+      </div>
+    `;
+  }
+
+  const previewHtml = emp ? buildLetterPreview(emp, div) : '';
+
+  return `
+    <div class="page-head">
+      <h1>إرسال مهمة</h1>
+      <p>اختر الموظف والمهمة، راجع نص البريد، ثم أرسله من برنامج بريدك أو انسخه إلى بريد الويب الخاص بـ${esc(div.name)}.</p>
+    </div>
+
+    <div class="div-toggle">
+      ${state.divisions.map(d=>`
+        <button data-div="${d.id}" class="${d.id===state.activeDivision?'active':''}">
+          <span class="dn">${esc(d.name)}</span>
+          <span class="de">${esc(d.email || 'لم يُحدَّد بريد بعد')}</span>
+        </button>`).join('')}
+    </div>
+
+    <div class="compose-grid">
+      <div class="panel">
+        <div class="panel-head"><h2>الموظفون</h2></div>
+        <div class="panel-body">
+          <div class="emp-list">${empListHtml}</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="panel">
+          <div class="panel-head"><h2>تفاصيل المهمة</h2></div>
+          <div class="panel-body" id="composerBox">${composerHtml}</div>
+        </div>
+
+        ${emp ? `
+        <div class="panel">
+          <div class="panel-head">
+            <h2>معاينة البريد</h2>
+            <div class="row-actions">
+              <button class="btn btn-ghost btn-sm" id="btnCopy">نسخ النص</button>
+              <a class="btn btn-accent btn-sm" id="btnMailto" href="#" target="_top" rel="noopener">فتح في برنامج البريد</a>
+              <button class="btn btn-primary btn-sm" id="btnLog">تسجيل كمُرسلة</button>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="letter" id="letterPreview">${previewHtml}</div>
+            <p class="muted" style="font-size:11.5px; margin:12px 0 0; line-height:1.8">
+              لو ما فتح زر «فتح في برنامج البريد» أي تطبيق على جهازك (يصير أحيانًا إذا ما عندك برنامج بريد افتراضي محدد)، استخدم «نسخ النص» والصقه يدويًا في بريد الويب الخاص بـ${esc(div.name)}.
+            </p>
+          </div>
+        </div>` : ''}
+      </div>
+    </div>
+  `;
+}
+
+function fillTemplate(body, emp){
+  return (body||'').replaceAll('{name}', emp.name).replaceAll('{الاسم}', emp.name).replaceAll('{job}', emp.jobTitle||'').replaceAll('{الوظيفة}', emp.jobTitle||'');
+}
+
+function currentTaskText(emp){
+  const subj = document.getElementById('taskSubject')?.value.trim() || '(بدون عنوان)';
+  const body = document.getElementById('taskBody')?.value.trim() || '';
+  return { subj, body };
+}
+
+function buildLetterPreview(emp, div){
+  const subjEl = document.getElementById('taskSubject');
+  const bodyEl = document.getElementById('taskBody');
+  const subj = subjEl ? subjEl.value.trim() : '';
+  const bodyTxt = bodyEl ? bodyEl.value.trim() : '';
+  const full = composeLetterText(emp, div, subj, bodyTxt);
+  return esc(full);
+}
+
+function composeLetterText(emp, div, subj, bodyTxt){
+  const lines = [
+    `السلام عليكم ورحمة الله وبركاته`,
+    ``,
+    `الأستاذ/ة ${emp.name} المحترم${emp.jobTitle ? ' — ' + emp.jobTitle : ''}`,
+    ``,
+    bodyTxt || '(لم تتم إضافة تفاصيل المهمة بعد)',
+    ``,
+    `يرجى الإفادة بالرد على هذا البريد عند إنجاز المهمة، أو في حال وجود أي استفسار بخصوصها.`,
+    ``,
+    `مع التقدير،`,
+    `${state.signer.name}`,
+    `${state.signer.title}`,
+    `${div.name}`
+  ];
+  return lines.join('\n');
+}
+
+function wireTabEvents(){
+  if(currentTab==='compose'){
+    document.querySelectorAll('[data-div]').forEach(b=>{
+      b.addEventListener('click', ()=>{ state.activeDivision = b.dataset.div; saveState(); render(); });
+    });
+    document.querySelectorAll('[data-emp]').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        composeSelectedEmployee = b.dataset.emp;
+        composeSelectedTemplate = null;
+        render();
+      });
+    });
+    document.querySelectorAll('[data-tmpl]').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        composeSelectedTemplate = (composeSelectedTemplate === b.dataset.tmpl) ? null : b.dataset.tmpl;
+        render();
+      });
+    });
+    const su = document.getElementById('taskSubject');
+    const bo = document.getElementById('taskBody');
+    const refresh = document.getElementById('refreshPreview');
+    if(refresh) refresh.addEventListener('click', render);
+    if(su) su.addEventListener('input', updatePreviewOnly);
+    if(bo) bo.addEventListener('input', updatePreviewOnly);
+
+    const emp = state.employees.find(e=>e.id===composeSelectedEmployee);
+    const div = state.divisions.find(d=>d.id===state.activeDivision) || state.divisions[0];
+    const btnCopy = document.getElementById('btnCopy');
+    const btnMailto = document.getElementById('btnMailto');
+    const btnLog = document.getElementById('btnLog');
+    if(btnCopy) btnCopy.addEventListener('click', ()=>{
+      const {subj, body} = currentTaskText(emp);
+      const full = `إلى: ${emp.email}\nمن: ${div.email || div.name}\nالموضوع: ${subj}\n\n${composeLetterText(emp, div, subj, body)}`;
+      copyText(full);
+    });
+    if(btnMailto){
+      updateMailtoHref(emp, div);
+      btnMailto.addEventListener('click', (e)=>{
+        if(!emp.email){ e.preventDefault(); toast('لا يوجد بريد إلكتروني مسجّل لهذا الموظف'); return; }
+        updateMailtoHref(emp, div); // make sure href reflects latest edits right before navigating
+        toast(`تأكد أن حساب البريد المفتوح هو: ${div.email || div.name}`);
+      });
+    }
+    if(btnLog) btnLog.addEventListener('click', ()=>{
+      const {subj, body} = currentTaskText(emp);
+      if(!body){ toast('اكتب تفاصيل المهمة أولًا'); return; }
+      state.log.unshift({
+        id: uid(), employeeId: emp.id, employeeName: emp.name, employeeEmail: emp.email,
+        jobTitle: emp.jobTitle, division: div.name, taskTitle: subj, taskBody: body,
+        dateSent: new Date().toISOString(), status:'waiting', reply:''
+      });
+      saveState();
+      toast('تم تسجيل المهمة في السجل ✓');
+      composeSelectedTemplate = null;
+      currentTab = 'log';
+      document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active', b.dataset.tab==='log'));
+      render();
+    });
+  }
+}
+function updatePreviewOnly(){
+  const emp = state.employees.find(e=>e.id===composeSelectedEmployee);
+  const div = state.divisions.find(d=>d.id===state.activeDivision) || state.divisions[0];
+  const prev = document.getElementById('letterPreview');
+  if(prev && emp) prev.innerHTML = buildLetterPreview(emp, div);
+  if(emp) updateMailtoHref(emp, div);
+}
+function updateMailtoHref(emp, div){
+  const btnMailto = document.getElementById('btnMailto');
+  if(!btnMailto || !emp) return;
+  const {subj, body} = currentTaskText(emp);
+  const full = composeLetterText(emp, div, subj, body);
+  if(!emp.email){ btnMailto.removeAttribute('href'); return; }
+  btnMailto.setAttribute('href', `mailto:${encodeURIComponent(emp.email)}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(full)}`);
+}
+
+/* ===================== Employees Tab ===================== */
+function renderEmployees(){
+  const rows = state.employees.length ? state.employees.map(e=>`
+    <tr>
+      <td><strong>${esc(e.name)}</strong></td>
+      <td>${esc(e.jobTitle||'—')}</td>
+      <td dir="ltr" style="text-align:left">${esc(e.email||'—')}</td>
+      <td dir="ltr" style="text-align:left">${esc(e.phone||'—')}</td>
+      <td>
+        <div class="row-actions">
+          <button class="btn btn-ghost btn-sm" data-edit-emp="${e.id}">تعديل</button>
+          <button class="btn btn-danger-ghost btn-sm" data-del-emp="${e.id}">حذف</button>
+        </div>
+      </td>
+    </tr>`).join('') : `<tr><td colspan="5"><div class="empty">لا يوجد موظفون مضافون بعد</div></td></tr>`;
+
+  return `
+    <div class="page-head">
+      <h1>الموظفون</h1>
+      <p>سجل الموظفين المرتبطين بحسابات البريد، وربطهم بمسمياتهم الوظيفية لتظهر مهامهم الجاهزة تلقائيًا عند الإسناد.</p>
+    </div>
+    <div class="panel">
+      <div class="panel-head">
+        <h2>القائمة (${state.employees.length})</h2>
+        <button class="btn btn-primary btn-sm" id="btnAddEmp">+ إضافة موظف</button>
+      </div>
+      <div class="panel-body table-wrap">
+        <table>
+          <thead><tr><th>الاسم</th><th>المسمى الوظيفي</th><th>البريد الإلكتروني</th><th>الجوال</th><th></th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+function employeeFormHtml(emp){
+  return `
+    <div class="field"><label>الاسم الكامل</label><input type="text" id="f_name" value="${esc(emp?.name||'')}" placeholder="مثال: سالم أحمد القحطاني"></div>
+    <div class="field"><label>المسمى الوظيفي</label><input type="text" id="f_job" value="${esc(emp?.jobTitle||'')}" placeholder="مثال: مندوب توصيل" list="jobTitlesList">
+      <datalist id="jobTitlesList">${jobTitles().map(j=>`<option value="${esc(j)}">`).join('')}</datalist>
+    </div>
+    <div class="field"><label>البريد الإلكتروني</label><input type="email" id="f_email" dir="ltr" value="${esc(emp?.email||'')}" placeholder="name@example.com"></div>
+    <div class="field"><label>رقم الجوال <span class="hint">(اختياري)</span></label><input type="tel" id="f_phone" dir="ltr" value="${esc(emp?.phone||'')}" placeholder="05xxxxxxxx"></div>
+  `;
+}
+function openEmpModal(id){
+  const emp = id ? state.employees.find(e=>e.id===id) : null;
+  openModal(emp?'تعديل بيانات الموظف':'إضافة موظف', employeeFormHtml(emp),
+    `<button class="btn btn-primary" id="saveEmpBtn">${emp?'حفظ التعديل':'إضافة'}</button>
+     <button class="btn btn-ghost" onclick="closeModal()">إلغاء</button>`);
+  document.getElementById('saveEmpBtn').addEventListener('click', ()=>{
+    const name = document.getElementById('f_name').value.trim();
+    const jobTitle = document.getElementById('f_job').value.trim();
+    const email = document.getElementById('f_email').value.trim();
+    const phone = document.getElementById('f_phone').value.trim();
+    if(!name || !email){ toast('الاسم والبريد الإلكتروني مطلوبان'); return; }
+    if(emp){
+      Object.assign(emp, { name, jobTitle, email, phone });
+    } else {
+      state.employees.push({ id: uid(), name, jobTitle, email, phone });
+    }
+    saveState(); closeModal(); render();
+    toast('تم الحفظ ✓');
+  });
+}
+
+/* ===================== Templates Tab ===================== */
+function renderTemplates(){
+  const groups = {};
+  state.templates.forEach(t=>{
+    const key = t.jobTitle || 'بدون مسمى';
+    (groups[key] ||= []).push(t);
+  });
+  const keys = Object.keys(groups);
+
+  const body = keys.length ? keys.map(k=>`
+    <div class="panel">
+      <div class="panel-head"><h2>${esc(k)}</h2></div>
+      <div class="panel-body table-wrap">
+        <table>
+          <thead><tr><th>عنوان المهمة</th><th>نص المهمة</th><th></th></tr></thead>
+          <tbody>
+            ${groups[k].map(t=>`
+              <tr>
+                <td><strong>${esc(t.title)}</strong></td>
+                <td class="muted" style="max-width:420px">${esc((t.body||'').slice(0,110))}${(t.body||'').length>110?'…':''}</td>
+                <td>
+                  <div class="row-actions">
+                    <button class="btn btn-ghost btn-sm" data-edit-tmpl="${t.id}">تعديل</button>
+                    <button class="btn btn-danger-ghost btn-sm" data-del-tmpl="${t.id}">حذف</button>
+                  </div>
+                </td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `).join('') : `<div class="panel"><div class="panel-body"><div class="empty">لا توجد مهام جاهزة بعد — أضف أول مهمة مرتبطة بمسمى وظيفي</div></div></div>`;
+
+  return `
+    <div class="page-head">
+      <h1>المهام الجاهزة</h1>
+      <p>مهام مُعدّة مسبقًا لكل مسمى وظيفي. عند اختيار موظف في تبويب «إرسال مهمة»، تظهر له تلقائيًا المهام الخاصة بمسماه. استخدم <code dir="ltr">{name}</code> داخل النص ليُستبدل باسم الموظف تلقائيًا.</p>
+    </div>
+    <div style="margin-bottom:14px"><button class="btn btn-primary btn-sm" id="btnAddTmpl">+ إضافة مهمة جاهزة</button></div>
+    ${body}
+  `;
+}
+function templateFormHtml(t){
+  return `
+    <div class="field"><label>المسمى الوظيفي المرتبط</label>
+      <input type="text" id="t_job" value="${esc(t?.jobTitle||'')}" placeholder="مثال: مندوب توصيل" list="jobTitlesList2">
+      <datalist id="jobTitlesList2">${jobTitles().map(j=>`<option value="${esc(j)}">`).join('')}</datalist>
+    </div>
+    <div class="field"><label>عنوان المهمة</label><input type="text" id="t_title" value="${esc(t?.title||'')}" placeholder="مثال: تقرير أداء أسبوعي"></div>
+    <div class="field"><label>نص المهمة <span class="hint">— يقبل {name}</span></label>
+      <textarea id="t_body" rows="6" placeholder="اكتب نص المهمة...">${esc(t?.body||'')}</textarea>
+    </div>
+  `;
+}
+function openTmplModal(id){
+  const t = id ? state.templates.find(x=>x.id===id) : null;
+  openModal(t?'تعديل مهمة جاهزة':'إضافة مهمة جاهزة', templateFormHtml(t),
+    `<button class="btn btn-primary" id="saveTmplBtn">${t?'حفظ التعديل':'إضافة'}</button>
+     <button class="btn btn-ghost" onclick="closeModal()">إلغاء</button>`);
+  document.getElementById('saveTmplBtn').addEventListener('click', ()=>{
+    const jobTitle = document.getElementById('t_job').value.trim();
+    const title = document.getElementById('t_title').value.trim();
+    const bodyTxt = document.getElementById('t_body').value.trim();
+    if(!title || !bodyTxt){ toast('العنوان والنص مطلوبان'); return; }
+    if(t){ Object.assign(t, { jobTitle, title, body: bodyTxt }); }
+    else { state.templates.push({ id: uid(), jobTitle, title, body: bodyTxt }); }
+    saveState(); closeModal(); render();
+    toast('تم الحفظ ✓');
+  });
+}
+
+/* ===================== Log Tab ===================== */
+let logFilter = { status:'all', q:'' };
+function renderLog(){
+  let rows = state.log.slice();
+  if(logFilter.status!=='all') rows = rows.filter(r=>r.status===logFilter.status);
+  if(logFilter.q.trim()) rows = rows.filter(r=> (r.employeeName+r.taskTitle).includes(logFilter.q.trim()));
+
+  const statusPill = s => s==='done' ? `<span class="pill pill-done"><span class="pill-dot"></span>تم الرد</span>`
+    : s==='cancelled' ? `<span class="pill pill-cancel"><span class="pill-dot"></span>ملغاة</span>`
+    : `<span class="pill pill-wait"><span class="pill-dot"></span>بانتظار الرد</span>`;
+
+  const body = rows.length ? rows.map(r=>`
+    <tr>
+      <td>${fmtDate(r.dateSent)}</td>
+      <td><strong>${esc(r.employeeName)}</strong><br><span class="muted" style="font-size:11.5px">${esc(r.jobTitle||'')}</span></td>
+      <td>${esc(r.taskTitle)}</td>
+      <td>${esc(r.division||'')}</td>
+      <td>${statusPill(r.status)}</td>
+      <td>
+        <div class="row-actions">
+          <button class="btn btn-ghost btn-sm" data-view-log="${r.id}">عرض</button>
+        </div>
+      </td>
+    </tr>`).join('') : `<tr><td colspan="6"><div class="empty">لا توجد مهام مسجّلة بعد</div></td></tr>`;
+
+  return `
+    <div class="page-head">
+      <h1>سجل المهام</h1>
+      <p>كل المهام التي أُرسلت للموظفين، مع إمكانية تحديث حالتها وتدوين ردّ الموظف.</p>
+    </div>
+    <div class="panel">
+      <div class="panel-head" style="flex-wrap:wrap; gap:10px">
+        <div class="search"><input type="text" id="logSearch" placeholder="بحث بالاسم أو عنوان المهمة" value="${esc(logFilter.q)}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+        </div>
+        <select id="logStatusFilter" style="width:auto">
+          <option value="all" ${logFilter.status==='all'?'selected':''}>كل الحالات</option>
+          <option value="waiting" ${logFilter.status==='waiting'?'selected':''}>بانتظار الرد</option>
+          <option value="done" ${logFilter.status==='done'?'selected':''}>تم الرد</option>
+          <option value="cancelled" ${logFilter.status==='cancelled'?'selected':''}>ملغاة</option>
+        </select>
+      </div>
+      <div class="panel-body table-wrap">
+        <table>
+          <thead><tr><th>التاريخ</th><th>الموظف</th><th>المهمة</th><th>الجهة</th><th>الحالة</th><th></th></tr></thead>
+          <tbody>${body}</tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+function openLogModal(id){
+  const r = state.log.find(x=>x.id===id);
+  if(!r) return;
+  const html = `
+    <div class="field"><label>الموظف</label><div>${esc(r.employeeName)} — ${esc(r.jobTitle||'')}</div></div>
+    <div class="field"><label>عنوان المهمة</label><div>${esc(r.taskTitle)}</div></div>
+    <div class="field"><label>نص المهمة</label><div class="letter" style="padding:12px 14px; font-size:12.5px; line-height:1.8">${esc(r.taskBody)}</div></div>
+    <div class="field"><label>الحالة</label>
+      <select id="l_status">
+        <option value="waiting" ${r.status==='waiting'?'selected':''}>بانتظار الرد</option>
+        <option value="done" ${r.status==='done'?'selected':''}>تم الرد</option>
+        <option value="cancelled" ${r.status==='cancelled'?'selected':''}>ملغاة</option>
+      </select>
+    </div>
+    <div class="field"><label>رد الموظف / ملاحظات</label><textarea id="l_reply" rows="4">${esc(r.reply||'')}</textarea></div>
+  `;
+  openModal('تفاصيل المهمة', html,
+    `<button class="btn btn-primary" id="saveLogBtn">حفظ</button>
+     <button class="btn btn-danger-ghost" id="delLogBtn">حذف السجل</button>
+     <button class="btn btn-ghost" onclick="closeModal()">إغلاق</button>`);
+  document.getElementById('saveLogBtn').addEventListener('click', ()=>{
+    r.status = document.getElementById('l_status').value;
+    r.reply = document.getElementById('l_reply').value.trim();
+    saveState(); closeModal(); render();
+    toast('تم التحديث ✓');
+  });
+  document.getElementById('delLogBtn').addEventListener('click', ()=>{
+    state.log = state.log.filter(x=>x.id!==id);
+    saveState(); closeModal(); render();
+    toast('تم الحذف');
+  });
+}
+
+/* ===================== Settings Tab ===================== */
+function renderSettings(){
+  return `
+    <div class="page-head">
+      <h1>الإعدادات</h1>
+      <p>بيانات جهات الإرسال وبيانات الموقّع التي تظهر في كل خطاب مهمة.</p>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h2>جهات الإرسال</h2></div>
+      <div class="panel-body">
+        ${state.divisions.map((d,i)=>`
+          <div class="grid2" style="margin-bottom:8px; align-items:end">
+            <div class="field"><label>اسم الجهة</label><input type="text" data-div-name="${i}" value="${esc(d.name)}"></div>
+            <div class="field" style="display:flex; gap:8px; align-items:flex-end">
+              <div style="flex:1"><label style="display:block; font-size:12.5px; font-weight:700; color:var(--ink-soft); margin-bottom:6px">البريد الإلكتروني</label><input type="email" dir="ltr" data-div-email="${i}" value="${esc(d.email)}" placeholder="name@tajazizia.com"></div>
+              ${state.divisions.length>1 ? `<button class="btn btn-danger-ghost btn-sm" data-del-div="${i}" title="حذف الجهة">حذف</button>` : ''}
+            </div>
+          </div>
+        `).join('')}
+        <div class="row-actions" style="margin-top:6px">
+          <button class="btn btn-ghost btn-sm" id="addDivBtn">+ إضافة جهة إرسال جديدة</button>
+          <button class="btn btn-primary btn-sm" id="saveDivBtn">حفظ جهات الإرسال</button>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h2>بيانات الموقّع</h2></div>
+      <div class="panel-body">
+        <div class="grid2">
+          <div class="field"><label>الاسم</label><input type="text" id="s_signerName" value="${esc(state.signer.name)}"></div>
+          <div class="field"><label>المسمى الوظيفي</label><input type="text" id="s_signerTitle" value="${esc(state.signer.title)}"></div>
+        </div>
+        <button class="btn btn-primary btn-sm" id="saveSignerBtn">حفظ بيانات الموقّع</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h2>بيانات محفوظة على هذا الجهاز فقط</h2></div>
+      <div class="panel-body">
+        <p class="muted" style="font-size:12.5px; line-height:1.9; margin:0">
+          جميع بيانات الموظفين والمهام والسجل تُحفظ محليًا في متصفحك على هذا الجهاز فقط، ولا تُرسل لأي خادم خارجي.
+          افتح البرنامج من نفس المتصفح والجهاز للوصول لبياناتك مرة أخرى.
+        </p>
+      </div>
+    </div>
+  `;
+}
+
+/* ===================== Global click delegation ===================== */
+document.getElementById('main').addEventListener('click', e=>{
+  const addEmp = e.target.closest('#btnAddEmp');
+  if(addEmp){ openEmpModal(null); return; }
+  const editEmp = e.target.closest('[data-edit-emp]');
+  if(editEmp){ openEmpModal(editEmp.dataset.editEmp); return; }
+  const delEmp = e.target.closest('[data-del-emp]');
+  if(delEmp){
+    const id = delEmp.dataset.delEmp;
+    state.employees = state.employees.filter(x=>x.id!==id);
+    saveState(); render(); toast('تم حذف الموظف');
+    return;
+  }
+  const addTmpl = e.target.closest('#btnAddTmpl');
+  if(addTmpl){ openTmplModal(null); return; }
+  const editTmpl = e.target.closest('[data-edit-tmpl]');
+  if(editTmpl){ openTmplModal(editTmpl.dataset.editTmpl); return; }
+  const delTmpl = e.target.closest('[data-del-tmpl]');
+  if(delTmpl){
+    const id = delTmpl.dataset.delTmpl;
+    state.templates = state.templates.filter(x=>x.id!==id);
+    saveState(); render(); toast('تم حذف المهمة');
+    return;
+  }
+  const viewLog = e.target.closest('[data-view-log]');
+  if(viewLog){ openLogModal(viewLog.dataset.viewLog); return; }
+
+  const saveDivBtn = e.target.closest('#saveDivBtn');
+  if(saveDivBtn){
+    document.querySelectorAll('[data-div-name]').forEach(inp=>{
+      state.divisions[+inp.dataset.divName].name = inp.value.trim();
+    });
+    document.querySelectorAll('[data-div-email]').forEach(inp=>{
+      state.divisions[+inp.dataset.divEmail].email = inp.value.trim();
+    });
+    saveState(); toast('تم حفظ جهات الإرسال ✓');
+    return;
+  }
+  const addDivBtn = e.target.closest('#addDivBtn');
+  if(addDivBtn){
+    state.divisions.push({ id: uid(), name:'جهة إرسال جديدة', email:'' });
+    saveState(); render();
+    return;
+  }
+  const delDiv = e.target.closest('[data-del-div]');
+  if(delDiv){
+    const idx = +delDiv.dataset.delDiv;
+    if(state.divisions.length<=1){ toast('لازم تبقى جهة إرسال واحدة على الأقل'); return; }
+    document.querySelectorAll('[data-div-name]').forEach(inp=>{ state.divisions[+inp.dataset.divName].name = inp.value.trim(); });
+    document.querySelectorAll('[data-div-email]').forEach(inp=>{ state.divisions[+inp.dataset.divEmail].email = inp.value.trim(); });
+    if(state.activeDivision === state.divisions[idx].id){
+      const fallback = state.divisions.find((d,i)=> i!==idx);
+      state.activeDivision = fallback ? fallback.id : null;
+    }
+    state.divisions.splice(idx,1);
+    saveState(); render();
+    toast('تم حذف الجهة');
+    return;
+  }
+  const saveSignerBtn = e.target.closest('#saveSignerBtn');
+  if(saveSignerBtn){
+    state.signer.name = document.getElementById('s_signerName').value.trim();
+    state.signer.title = document.getElementById('s_signerTitle').value.trim();
+    saveState(); toast('تم حفظ بيانات الموقّع ✓');
+    return;
+  }
+});
+document.getElementById('main').addEventListener('input', e=>{
+  if(e.target.id==='logSearch'){ logFilter.q = e.target.value; render(); }
+  if(e.target.id==='logStatusFilter'){ /* handled on change below */ }
+});
+document.getElementById('main').addEventListener('change', e=>{
+  if(e.target.id==='logStatusFilter'){ logFilter.status = e.target.value; render(); }
+});
+
+/* ===================== Init ===================== */
+render();
+</script>
+</body>
+</html>
